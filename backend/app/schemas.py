@@ -68,6 +68,7 @@ class TicketListItem(BaseModel):
     priority: str
     sla_due_at: str | None = None
     created_at: str
+    updated_at: str
 
 
 class NoteResponse(BaseModel):

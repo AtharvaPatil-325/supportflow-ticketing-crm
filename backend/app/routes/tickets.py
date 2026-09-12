@@ -73,7 +73,7 @@ def _to_iso(value):
     if value is None:
         return None
     if isinstance(value, datetime):
-        return value.isoformat()
+        return value.isoformat() + "Z"
     return value
 
 
@@ -109,7 +109,7 @@ def create_ticket(ticket_data: TicketCreate, db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=500, detail="Could not create ticket")
 
-    return TicketResponse(ticket_id=ticket_id, created_at=db_ticket.created_at.isoformat())
+    return TicketResponse(ticket_id=ticket_id, created_at=db_ticket.created_at.isoformat() + "Z")
 
 
 @router.get("/api/tickets", response_model=list[TicketListItem])
@@ -149,7 +149,8 @@ def list_tickets(
             "status": ticket.status,
             "priority": ticket.priority or DEFAULT_PRIORITY,
             "sla_due_at": _to_iso(ticket.sla_due_at),
-            "created_at": ticket.created_at.isoformat(),
+            "created_at": ticket.created_at.isoformat() + "Z",
+            "updated_at": ticket.updated_at.isoformat() + "Z",
         }
         for ticket in tickets
     ]
@@ -169,13 +170,13 @@ def get_ticket(ticket_id: str, db: Session = Depends(get_db)):
         "status": ticket.status,
         "priority": ticket.priority or DEFAULT_PRIORITY,
         "sla_due_at": _to_iso(ticket.sla_due_at),
-        "created_at": ticket.created_at.isoformat(),
-        "updated_at": ticket.updated_at.isoformat(),
+        "created_at": ticket.created_at.isoformat() + "Z",
+        "updated_at": ticket.updated_at.isoformat() + "Z",
         "notes": [
             {
                 "id": note.id,
                 "note_text": note.note_text,
-                "created_at": note.created_at.isoformat(),
+                "created_at": note.created_at.isoformat() + "Z",
             }
             for note in ticket.notes
         ],
@@ -212,4 +213,4 @@ def update_ticket(ticket_id: str, ticket_data: TicketUpdate, db: Session = Depen
         db.rollback()
         raise HTTPException(status_code=500, detail="Could not update ticket")
 
-    return {"success": True, "updated_at": ticket.updated_at.isoformat()}
+    return {"success": True, "updated_at": ticket.updated_at.isoformat() + "Z"}

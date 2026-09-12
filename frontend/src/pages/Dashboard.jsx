@@ -33,6 +33,16 @@ export default function Dashboard() {
   const inProgressTickets = tickets.filter((t) => t.status === "In Progress").length
   const totalTickets = tickets.length
 
+  const resolvedToday = (() => {
+    const now = new Date()
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    return tickets.filter((t) => {
+      if (t.status !== "Closed") return false
+      const updated = new Date(t.updated_at)
+      return updated >= start
+    }).length
+  })()
+
   return (
     <div className="space-y-6">
       <div className="flex items-start justify-between">
@@ -62,7 +72,7 @@ export default function Dashboard() {
         </div>
         <div className="bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Resolved Today</p>
-          <p className="mt-2 text-3xl font-semibold text-gray-900">—</p>
+          <p className="mt-2 text-3xl font-semibold text-gray-900">{resolvedToday}</p>
         </div>
         <div className="bg-white rounded-lg border border-gray-200 p-5 shadow-sm">
           <p className="text-sm font-medium text-gray-500">Total Tickets</p>
