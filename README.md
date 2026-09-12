@@ -188,4 +188,18 @@ Environment variables are configured in Railway. CORS is restricted to the deplo
 
 ## Screenshots / Demo
 
-Screenshots and demo video can be added here after deployment.
+### 1. Dashboard & Needs Attention
+Overview of active support tickets, key operational metrics, and immediate SLA breach alerts.
+
+![Dashboard Overview](screenshots/dashboard.png)
+
+### 2. Tickets Management
+Comprehensive ticket list with real-time multi-field search, status filtering, and priority indicators.
+
+![Tickets Management](screenshots/tickets.png)
+
+### 3. Analytics & SLA Health
+Detailed breakdown of SLA compliance, ticket status distributions, and triage monitoring.
+
+![Analytics & SLA Health](screenshots/analytics.png)
+
